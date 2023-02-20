@@ -37,7 +37,7 @@ class CosyNetTest(tf.test.TestCase):
         all_dense = [
             layer
             for layer in self.cosy_net.get_models()[0].layers
-            if "dense" in layer.name  # change to be generic
+            if "kernel" in layer.weights  # change to be generic
         ]
         assert len(parameters) == len(all_dense) - 1
 

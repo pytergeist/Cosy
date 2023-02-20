@@ -1,11 +1,10 @@
 from typing import Dict, Callable
 import tensorflow as tf
-import numpy as np
-
+from .base import BaseCosy
 from cosy.losses import l2_loss
 
 
-class CosyNet(tf.keras.Model):
+class CosyNet(BaseCosy):
     def __init__(
         self,
         model_config: Dict,
@@ -13,52 +12,76 @@ class CosyNet(tf.keras.Model):
         layer_cutoff: int = -1,
         loss_fn: Callable = l2_loss,
         scalar: float = 0.2,
+        *args,
+        **kwargs,
     ):
-        super(CosyNet, self).__init__()
+        super(CosyNet, self).__init__(
+            model_config=model_config,
+            number_models=number_models,
+            layer_cutoff=layer_cutoff,
+            loss_fn=loss_fn,
+            scalar=scalar,
+            *args,
+            **kwargs,
+        )
 
-        self.model_config = model_config
-        self.number_models = number_models
-        self.layer_cutoff = layer_cutoff
-        self.loss_fn = loss_fn
-        self.scalar = scalar
         self.task_nets = self._build_task_models()
-
-    def _build_task_models(self):
-        return [
-            tf.keras.Model.from_config(self.model_config)
-            for _ in range(self.number_models)
-        ]
 
     def _get_parameters(self):
         parameters = []
         for params in zip(*[layer.weights for layer in self.task_nets.layers]):
-            if "kernel" in params[1].name:
+            if "kernel" in params[1].name:  # CHANGE THIS TO ALL STATEMENT
                 parameters.append(params)
 
         return parameters[: self.layer_cutoff]
 
-    def soft_loss(self):
-        parameters = self._get_parameters()
-        losses = []
+    def call(self, inputs):
+        soft_sharing_loss = self.soft_loss()
+        [net.add_loss(soft_sharing_loss) for net in self.task_nets]
+        self.add_metric(soft_sharing_loss, name="scaled_soft_loss", aggregation="mean")
+        return tuple(task_net(inputs) for task_net in self.task_nets)
 
-        for params in parameters:
-            losses.append(self.loss_fn(params))
 
-        soft_sharing_loss = self.scalar * tf.reduce_sum(losses)
-        return tf.keras.backend.clip(soft_sharing_loss, 1e-12, np.inf)
+class CosyNetMultiInput(BaseCosy):
+    def __init__(
+        self,
+        model_config: Dict,
+        number_models: int,
+        layer_cutoff: int = -1,
+        loss_fn: Callable = l2_loss,
+        scalar: float = 0.2,
+        *args,
+        **kwargs,
+    ):
+        super(CosyNetMultiInput, self).__init__(
+            model_config=model_config,
+            number_models=number_models,
+            layer_cutoff=layer_cutoff,
+            loss_fn=loss_fn,
+            scalar=scalar,
+            *args,
+            **kwargs,
+        )
 
-    def call(self, x):
-        soft_sharing_loss = tf.constant(self.soft_loss())
-        [net.add_loss(lambda: soft_sharing_loss) for net in self.task_nets]
+        self.task_nets = self._build_task_models()
 
-        scaled_soft_loss = tf.identity(soft_sharing_loss, name="scaled_soft_loss")
+    def _get_parameters(self):
+        parameters = []
+        for idx, params in enumerate(
+            zip(*[layer.weights for layer in self.task_nets.layers])
+        ):
+            if "kernel" in params[1].name and idx > 0:
+                parameters.append(params)
 
-        self.add_metric(scaled_soft_loss, name="scaled_soft_loss", aggregation="mean")
+        return parameters[: self.layer_cutoff]
 
-        return tuple(task_net(x) for task_net in self.task_nets)
+    def call(self, inputs):
+        soft_sharing_loss = self.soft_loss()
+        [net.add_loss(soft_sharing_loss) for net in self.task_nets]
+        self.add_metric(soft_sharing_loss, name="scaled_soft_loss", aggregation="mean")
+        return tuple(task_net(inputs[i]) for i, task_net in enumerate(self.task_nets))
 
-    def get_models(self):
-        return [task_net for task_net in self.task_nets]
-
-    def get_multi_weights(self):
-        return [task_net.get_weights() for task_net in self.task_nets]
+    def summary(self):
+        x = tf.keras.Input(shape=(24, 24, 3))
+        model = tf.keras.Model(inputs=[x], outputs=self.call(x))
+        return model.summary()

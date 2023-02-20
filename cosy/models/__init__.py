@@ -1,3 +1,4 @@
-from .cosy_net import CosyNet
+from .base import BaseCosy
+from .cosy_net import CosyNet, CosyNetMultiInput
 
-__all__ = ["CosyNet"]
+__all__ = ["BaseCosy", "CosyNet", "CosyNetMultiInput"]
