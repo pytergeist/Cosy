@@ -17,7 +17,7 @@ class CosyNetTest(tf.test.TestCase):
     def setUp(self):
         super(CosyNetTest, self).setUp()
         self.cosy_net = CosyNet(
-            model_config=test_model.get_config(), number_models=3, layer_cutoff=-1
+            model_config=test_model.get_config(), number_models=3, max_layer_cutoff=-1
         )
 
     def tearDown(self):

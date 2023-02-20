@@ -11,7 +11,8 @@ class BaseCosy(ABC, tf.keras.Model):
         self,
         model_config: Dict,
         number_models: int,
-        layer_cutoff: int = -1,
+        max_layer_cutoff: int = -1,
+        min_layer_cutoff: int = 0,
         loss_fn: Callable = l2_loss,
         scalar: float = 0.2,
     ):
@@ -23,7 +24,8 @@ class BaseCosy(ABC, tf.keras.Model):
             self.model_config = [model_config] * number_models
 
         self.number_models = number_models
-        self.layer_cutoff = layer_cutoff
+        self.max_layer_cutoff = max_layer_cutoff
+        self.min_layer_cutoff = min_layer_cutoff
         self.loss_fn = loss_fn
         self.scalar = scalar
 
@@ -33,9 +35,13 @@ class BaseCosy(ABC, tf.keras.Model):
             net.compile()
         return task_nets
 
-    @abstractmethod
-    def _get_parameters(self) -> list:
-        pass
+    def _get_parameters(self):
+        parameters = []
+        for params in zip(*[layer.weights for layer in self.task_nets.layers]):
+            if "kernel" in params[1].name:  # CHANGE THIS TO ALL STATEMENT
+                parameters.append(params)
+
+        return parameters[self.min_layer_cutoff: self.max_layer_cutoff]
 
     def soft_loss(self):
         parameters = self._get_parameters()

@@ -9,7 +9,8 @@ class CosyNet(BaseCosy):
         self,
         model_config: Dict,
         number_models: int,
-        layer_cutoff: int = -1,
+        max_layer_cutoff: int = -1,
+        min_layer_cutoff: int = 0,
         loss_fn: Callable = l2_loss,
         scalar: float = 0.2,
         *args,
@@ -18,7 +19,8 @@ class CosyNet(BaseCosy):
         super(CosyNet, self).__init__(
             model_config=model_config,
             number_models=number_models,
-            layer_cutoff=layer_cutoff,
+            max_layer_cutoff=max_layer_cutoff,
+            min_layer_cutoff=min_layer_cutoff,
             loss_fn=loss_fn,
             scalar=scalar,
             *args,
@@ -26,14 +28,6 @@ class CosyNet(BaseCosy):
         )
 
         self.task_nets = self._build_task_models()
-
-    def _get_parameters(self):
-        parameters = []
-        for params in zip(*[layer.weights for layer in self.task_nets.layers]):
-            if "kernel" in params[1].name:  # CHANGE THIS TO ALL STATEMENT
-                parameters.append(params)
-
-        return parameters[: self.layer_cutoff]
 
     def call(self, inputs):
         soft_sharing_loss = self.soft_loss()
@@ -47,7 +41,7 @@ class CosyNetMultiInput(BaseCosy):
         self,
         model_config: Dict,
         number_models: int,
-        layer_cutoff: int = -1,
+        max_layer_cutoff: int = -1,
         loss_fn: Callable = l2_loss,
         scalar: float = 0.2,
         *args,
@@ -56,7 +50,7 @@ class CosyNetMultiInput(BaseCosy):
         super(CosyNetMultiInput, self).__init__(
             model_config=model_config,
             number_models=number_models,
-            layer_cutoff=layer_cutoff,
+            max_layer_cutoff=max_layer_cutoff,
             loss_fn=loss_fn,
             scalar=scalar,
             *args,
@@ -64,16 +58,6 @@ class CosyNetMultiInput(BaseCosy):
         )
 
         self.task_nets = self._build_task_models()
-
-    def _get_parameters(self):
-        parameters = []
-        for idx, params in enumerate(
-            zip(*[layer.weights for layer in self.task_nets.layers])
-        ):
-            if "kernel" in params[1].name and idx > 0:
-                parameters.append(params)
-
-        return parameters[: self.layer_cutoff]
 
     def call(self, inputs):
         soft_sharing_loss = self.soft_loss()
