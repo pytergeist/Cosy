@@ -41,7 +41,7 @@ class BaseCosy(ABC, tf.keras.Model):
             if "kernel" in params[1].name:  # CHANGE THIS TO ALL STATEMENT
                 parameters.append(params)
 
-        return parameters[self.min_layer_cutoff: self.max_layer_cutoff]
+        return parameters[self.min_layer_cutoff : self.max_layer_cutoff]
 
     def soft_loss(self):
         parameters = self._get_parameters()
@@ -49,7 +49,7 @@ class BaseCosy(ABC, tf.keras.Model):
         return tf.keras.backend.clip(soft_sharing_loss, 1e-12, np.inf)
 
     @abstractmethod
-    def call(self, inputs) -> tuple:
+    def call(self, inputs) -> tuple: # pragma: no cover
         pass
 
     def get_models(self):

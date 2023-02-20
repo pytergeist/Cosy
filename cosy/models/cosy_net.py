@@ -1,5 +1,4 @@
 from typing import Dict, Callable
-import tensorflow as tf
 from .base import BaseCosy
 from cosy.losses import l2_loss
 
@@ -42,15 +41,17 @@ class CosyNetMultiInput(BaseCosy):
         model_config: Dict,
         number_models: int,
         max_layer_cutoff: int = -1,
+        min_layer_cutoff: int = 0,
         loss_fn: Callable = l2_loss,
         scalar: float = 0.2,
         *args,
         **kwargs,
     ):
-        super(CosyNetMultiInput, self).__init__(
+        super(CosyNetMultiInput, self).__init__( # pragma: no cover
             model_config=model_config,
             number_models=number_models,
             max_layer_cutoff=max_layer_cutoff,
+            min_layer_cutoff=min_layer_cutoff,
             loss_fn=loss_fn,
             scalar=scalar,
             *args,
