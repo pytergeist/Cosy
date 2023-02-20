@@ -80,8 +80,3 @@ class CosyNetMultiInput(BaseCosy):
         [net.add_loss(soft_sharing_loss) for net in self.task_nets]
         self.add_metric(soft_sharing_loss, name="scaled_soft_loss", aggregation="mean")
         return tuple(task_net(inputs[i]) for i, task_net in enumerate(self.task_nets))
-
-    def summary(self):
-        x = tf.keras.Input(shape=(24, 24, 3))
-        model = tf.keras.Model(inputs=[x], outputs=self.call(x))
-        return model.summary()
