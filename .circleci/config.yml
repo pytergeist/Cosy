@@ -19,7 +19,7 @@ jobs:
             pipenv run pytest -v --cov-report term-missing --cov=algorithms tests/losses
           name: Test losses
 
-  build-and-test-losses:
+  build-and-test-models:
     docker:
       - image: cimg/python:3.9
     steps:
@@ -38,4 +38,4 @@ workflows:
   main:
     jobs:
       - build-and-test-losses
-      - build-and-test-losses
+      - build-and-test-models
