@@ -16,7 +16,7 @@ jobs:
       - run:
           command: |
             cd cosy
-            pipenv run pytest -v --cov-report term-missing --cov=algorithms tests/losses
+            pipenv run pytest -v --cov-report term-missing --cov=losses tests/losses
           name: Test losses
 
   build-and-test-models:
@@ -30,7 +30,7 @@ jobs:
       - run:
           command: |
             cd cosy
-            pipenv run pytest -v --cov-report term-missing --cov=algorithms tests/models
+            pipenv run pytest -v --cov-report term-missing --cov=models tests/models
           name: Test models
 
 
