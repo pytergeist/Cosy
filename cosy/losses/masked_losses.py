@@ -1,22 +1,4 @@
 import tensorflow as tf
-from functools import reduce
-
-
-def l2_loss(parameters):
-    loss = tf.constant(0.0)
-    for params in parameters:
-        reduced_param = reduce(tf.math.subtract, params)
-        loss += tf.norm(reduced_param, ord="fro", axis=(0, 1))
-    return loss
-
-
-def trace_norm_loss(parameters):
-    loss = tf.constant(0.0)
-    for params in parameters:
-        reduced_param = reduce(tf.math.subtract, params)
-        singular_values = tf.linalg.svd(reduced_param, compute_uv=False)
-        loss += tf.reduce_sum(singular_values)
-    return loss
 
 
 class MaskedMeanSquaredError(tf.keras.losses.Loss):

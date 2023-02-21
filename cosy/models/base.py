@@ -3,7 +3,7 @@ from typing import Dict, Callable
 import tensorflow as tf
 import numpy as np
 
-from cosy.losses import l2_loss
+from cosy.losses import squared_frobenius_norm
 
 
 class BaseCosy(ABC, tf.keras.Model):
@@ -13,7 +13,7 @@ class BaseCosy(ABC, tf.keras.Model):
         number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
-        loss_fn: Callable = l2_loss,
+        loss_fn: Callable = squared_frobenius_norm,
         scalar: float = 0.2,
     ):
         super(BaseCosy, self).__init__()
@@ -27,7 +27,11 @@ class BaseCosy(ABC, tf.keras.Model):
         self.max_layer_cutoff = max_layer_cutoff
         self.min_layer_cutoff = min_layer_cutoff
         self.loss_fn = loss_fn
-        self.scalar = scalar
+
+        if isinstance(scalar, list):
+            self.scalar = scalar
+        else:
+            self.scalar = [scalar]
 
     def _build_task_models(self):
         task_nets = [tf.keras.Model.from_config(config) for config in self.model_config]
@@ -45,11 +49,11 @@ class BaseCosy(ABC, tf.keras.Model):
 
     def soft_loss(self):
         parameters = self._get_parameters()
-        soft_sharing_loss = self.scalar * tf.reduce_sum(self.loss_fn(parameters))
+        soft_sharing_loss = tf.reduce_sum(self.loss_fn(parameters, self.scalar))
         return tf.keras.backend.clip(soft_sharing_loss, 1e-12, np.inf)
 
     @abstractmethod
-    def call(self, inputs) -> tuple: # pragma: no cover
+    def call(self, inputs) -> tuple:  # pragma: no cover
         pass
 
     def get_models(self):

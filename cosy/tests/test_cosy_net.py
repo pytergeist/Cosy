@@ -5,12 +5,12 @@ import tensorflow as tf
 
 
 @pytest.mark.parametrize(
-        "params",
-        [
-                    "cosy_net_params",
-                    "cosy_net_params_multi_input",
-        ],
-    )
+    "params",
+    [
+        "cosy_net_params",
+        "cosy_net_params_multi_input",
+    ],
+)
 def test_init_cosy_net(params, request):
     params = request.getfixturevalue(params)
     cosy_net = CosyNet(**params)
@@ -44,7 +44,7 @@ def test_soft_loss(request):
     cosy_net = request.getfixturevalue("cosy_net_obj")
     soft_loss = cosy_net.soft_loss()
     assert isinstance(soft_loss, tf.Tensor)
-    assert 1e-12 < soft_loss < np.inf
+    assert 1e-12 <= soft_loss < np.inf
 
 
 def test_get_models(request):
@@ -64,12 +64,12 @@ def test_get_multi_weights(request):
 
 
 @pytest.mark.parametrize(
-        "params",
-        [
-                    "cosy_net_params",
-                    "cosy_net_params_multi_input",
-        ],
-    )
+    "params",
+    [
+        "cosy_net_params",
+        "cosy_net_params_multi_input",
+    ],
+)
 def test_init_cosy_net_multi_input(params, request):
     params = request.getfixturevalue(params)
     cosy_net = CosyNetMultiInput(**params)

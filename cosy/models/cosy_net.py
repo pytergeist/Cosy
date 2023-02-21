@@ -1,6 +1,6 @@
-from typing import Dict, Callable
+from typing import Dict, Callable, Union
 from .base import BaseCosy
-from cosy.losses import l2_loss
+from cosy.losses import squared_frobenius_norm
 
 
 class CosyNet(BaseCosy):
@@ -10,8 +10,8 @@ class CosyNet(BaseCosy):
         number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
-        loss_fn: Callable = l2_loss,
-        scalar: float = 0.2,
+        loss_fn: Callable = squared_frobenius_norm,
+        scalar: Union[list, float] = 0.2,
         *args,
         **kwargs,
     ):
@@ -42,12 +42,12 @@ class CosyNetMultiInput(BaseCosy):
         number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
-        loss_fn: Callable = l2_loss,
+        loss_fn: Callable = squared_frobenius_norm,
         scalar: float = 0.2,
         *args,
         **kwargs,
     ):
-        super(CosyNetMultiInput, self).__init__( # pragma: no cover
+        super(CosyNetMultiInput, self).__init__(  # pragma: no cover
             model_config=model_config,
             number_models=number_models,
             max_layer_cutoff=max_layer_cutoff,

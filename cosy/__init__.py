@@ -1,7 +1,8 @@
 from cosy.models import CosyNet
-from cosy.losses import l2_loss
+from cosy.losses import trace_norm, squared_frobenius_norm
 
 __all__ = [
     "CosyNet",
-    "l2_loss",
+    "trace_norm",
+    "squared_frobenius_norm",
 ]
