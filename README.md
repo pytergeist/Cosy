@@ -21,11 +21,15 @@ function of our network with a regularization loss that penalises our model para
 metric between model parameters. An equation demonstrating this process using the 
 squared frobenius norm is shown below.
 
-$L = l + \sum_{i,j \in N, i < j} \lambda_{ij} \lVert W_i - W_j \rVert^2$
+$$L = l + \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} \lambda_{ij} \lVert W_i - W_j \rVert^2$$
 
-In this equation, $N$ is the set of all neural networks, $i$ and $j$ are indices representing two different neural 
-networks in $N$, and $\lambda_{ij}$ is a regularization parameter for the weight difference between the $i$th and $j$th 
-neural networks. The sum is taken over all pairs of distinct neural networks in $N$.
+In this equation, $n$ is the total number of neural networks, $l$ is the supervised loss, $\lambda_{ij}$ is the 
+weight-sharing hyperparameter between the $i$th and $j$th neural networks, and $W_i$ and $W_j$ are the weight tensors of 
+the $i$th and $j$th neural networks, respectively. The nested for loop computes the pairwise loss between all possible 
+pairs of weight tensors. 
+
+[//]: # (The outer for loop iterates over the first $n-1$ neural networks, and the inner for loop iterates )
+[//]: # (over the remaining $n-i$ neural networks. This ensures that each pair of neural networks is considered only once.)
 
 For three neural networks connected (A, B and C) in a soft parameter sharing process this
 equation can be defined as;
