@@ -4,9 +4,22 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+jupyter = "*"
+h5py = "*"
 
 [dev-packages]
 pytest = "*"
+tensorflow = {version = "*", sys_platform = "== 'linux'"}
+black = "*"
+jupyter = "*"
+pandas = "*"
+scikit-learn = "*"
+tensorflow-addons = "*"
+tensorflow-metal = {version = "==0.5.0", sys_platform = "== 'darwin'"}
+tensorflow-macos = {version = "==2.9.0", sys_platform = "== 'darwin'"}
+pytest-cov = "*"
+circleci = "*"
 
 [requires]
 python_version = "3.9"

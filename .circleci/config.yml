@@ -1,0 +1,41 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1.1
+
+jobs:
+
+  build-and-test-losses:
+    docker:
+      - image: cimg/python:3.9
+    steps:
+      - checkout
+      - python/install-packages:
+          args: pytest pytest-cov tensorflow numpy
+          pkg-manager: pipenv
+      - run:
+          command: |
+            cd cosy
+            pipenv run pytest -v --cov-report term-missing --cov=losses tests/losses
+          name: Test losses
+
+  build-and-test-models:
+    docker:
+      - image: cimg/python:3.9
+    steps:
+      - checkout
+      - python/install-packages:
+          args: pytest pytest-cov tensorflow numpy
+          pkg-manager: pipenv
+      - run:
+          command: |
+            cd cosy
+            pipenv run pytest -v --cov-report term-missing --cov=models tests/models
+          name: Test models
+
+
+workflows:
+  main:
+    jobs:
+      - build-and-test-losses
+      - build-and-test-models
