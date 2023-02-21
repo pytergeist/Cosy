@@ -7,7 +7,6 @@ class CosyNet(BaseCosy):
     def __init__(
         self,
         model_config: Dict,
-        number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
         loss_fn: Callable = squared_frobenius_norm,
@@ -17,7 +16,6 @@ class CosyNet(BaseCosy):
     ):
         super(CosyNet, self).__init__(
             model_config=model_config,
-            number_models=number_models,
             max_layer_cutoff=max_layer_cutoff,
             min_layer_cutoff=min_layer_cutoff,
             loss_fn=loss_fn,
@@ -49,7 +47,6 @@ class CosyNetMultiInput(BaseCosy):
     ):
         super(CosyNetMultiInput, self).__init__(  # pragma: no cover
             model_config=model_config,
-            number_models=number_models,
             max_layer_cutoff=max_layer_cutoff,
             min_layer_cutoff=min_layer_cutoff,
             loss_fn=loss_fn,

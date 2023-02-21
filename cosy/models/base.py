@@ -10,7 +10,6 @@ class BaseCosy(ABC, tf.keras.Model):
     def __init__(
         self,
         model_config: Dict,
-        number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
         loss_fn: Callable = squared_frobenius_norm,
@@ -18,12 +17,8 @@ class BaseCosy(ABC, tf.keras.Model):
     ):
         super(BaseCosy, self).__init__()
 
-        if isinstance(model_config, list):
-            self.model_config = model_config
-        else:
-            self.model_config = [model_config] * number_models
+        self.model_config = model_config
 
-        self.number_models = number_models
         self.max_layer_cutoff = max_layer_cutoff
         self.min_layer_cutoff = min_layer_cutoff
         self.loss_fn = loss_fn
