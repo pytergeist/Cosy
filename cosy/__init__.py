@@ -1,4 +1,4 @@
-from cosy.models import CosyNet
+from cosy.models import CosyNet, CosyNetMultiInput
 from cosy.losses import trace_norm, squared_frobenius_norm
 
 __all__ = [
