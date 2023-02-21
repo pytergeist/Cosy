@@ -36,7 +36,7 @@ equation can be defined as;
 
 $L = l + \lambda_{AB} \lVert W_A - W_B \rVert^2 + \lambda_{AC} \lVert W_A - W_C \rVert^2 + \lambda_{BC} \lVert W_B - W_C \rVert^2$
 
-This package currently implements six distance metrics for this process which can be imported 
+This package currently implements five distance metrics for this process which can be imported 
 from the loss module and are shown below
 
 ```python 
@@ -45,7 +45,6 @@ from cosy.losses import (
     l1_norm,
     trace_norm,
     kl_divergence,
-    mutual_information,
     wasserstein_distance,
 )
 ```
