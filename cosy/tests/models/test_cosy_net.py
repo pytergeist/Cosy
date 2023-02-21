@@ -8,7 +8,6 @@ import tensorflow as tf
     "params",
     [
         "cosy_net_params",
-        "cosy_net_params_multi_input",
     ],
 )
 def test_init_cosy_net(params, request):
@@ -29,7 +28,6 @@ def test__get_parameters(request):
     cosy_net = request.getfixturevalue("cosy_net_obj")
     parameters = cosy_net._get_parameters()
     assert isinstance(parameters, list)
-    assert len(parameters[0]) == cosy_net.number_models
 
     all_weights = [
         layer.weights
@@ -51,7 +49,6 @@ def test_get_models(request):
     cosy_net = request.getfixturevalue("cosy_net_obj")
     models = cosy_net.get_models()
     assert isinstance(models, list)
-    assert len(models) == cosy_net.number_models
     for model in models:
         assert isinstance(model, tf.keras.Model)
 
@@ -60,14 +57,12 @@ def test_get_multi_weights(request):
     cosy_net = request.getfixturevalue("cosy_net_obj")
     weights = cosy_net.get_multi_weights()
     assert isinstance(weights, list)
-    assert len(weights) == cosy_net.number_models
 
 
 @pytest.mark.parametrize(
     "params",
     [
         "cosy_net_params",
-        "cosy_net_params_multi_input",
     ],
 )
 def test_init_cosy_net_multi_input(params, request):
@@ -77,7 +72,7 @@ def test_init_cosy_net_multi_input(params, request):
 
 
 def test_cosy_net_multi_input__build_task_models(request):
-    cosy_net = request.getfixturevalue("cosy_net_multi_input_obj")
+    cosy_net = request.getfixturevalue("cosy_net_obj")
     model_list = cosy_net._build_task_models()
     assert isinstance(model_list, list)
     for model in model_list:

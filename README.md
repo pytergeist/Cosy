@@ -69,7 +69,7 @@ The CosyNetMultiInput wrapper works with heterogeneous feature sets
 and has an input format of;
 
 ```python 
-x = np.array(x1, x2, x3)
+x = np.array([x1, x2, x3])
 y = np.array([y1, y2, y3])
 ```
 

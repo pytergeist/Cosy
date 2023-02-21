@@ -37,7 +37,6 @@ class CosyNetMultiInput(BaseCosy):
     def __init__(
         self,
         model_config: Dict,
-        number_models: int,
         max_layer_cutoff: int = -1,
         min_layer_cutoff: int = 0,
         loss_fn: Callable = squared_frobenius_norm,

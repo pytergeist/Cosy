@@ -18,21 +18,12 @@ def test_mlp():
 @pytest.fixture
 def cosy_net_params(test_mlp):
     return {
-        "model_config": test_mlp.get_config(),
-        "number_models": 3,
+        "model_config": [test_mlp.get_config()] * 3,
         "max_layer_cutoff": -1,
         "min_layer_cutoff": 0,
         "loss_fn": squared_frobenius_norm,
         "scalar": 0.2,
     }
-
-
-@pytest.fixture
-def cosy_net_params_multi_input(cosy_net_params, test_mlp):
-    cosy_net_params["model_config"] = [test_mlp.get_config()] * cosy_net_params[
-        "number_models"
-    ]
-    return cosy_net_params
 
 
 @pytest.fixture(autouse=True)
@@ -70,3 +61,16 @@ def network_params_alternate():
         [tf.ones((2, 2)), tf.ones((2, 2)), tf.ones((2, 2))],
         [tf.ones((2, 2)), tf.zeros((2, 2)), tf.ones((2, 2))],
     ]
+
+
+@pytest.fixture
+def network_params_random_deterministic():
+    tf.random.set_seed(42)
+
+    return [
+        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))],
+        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))],
+        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))]
+    ]
+
+

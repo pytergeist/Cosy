@@ -6,12 +6,12 @@ from typing import List
 class EarlyStoppingMultiLoss(tf.keras.callbacks.Callback):
     """Stop training when the loss is at its min, i.e. the loss stops decreasing.
 
-  Arguments:
-      patience: Number of epochs to wait after min has been hit. After this
-      number of no improvement, training stops.
-  """
+    Arguments:
+        patience: Number of epochs to wait after min has been hit. After this
+        number of no improvement, training stops.
+    """
 
-    def __init__(self, monitor: List[str], patience: int = 0, mode: str = 'min'):
+    def __init__(self, monitor: List[str], patience: int = 0, mode: str = "min"):
         super(EarlyStoppingMultiLoss, self).__init__()
         self.monitor = monitor
         self.patience = patience
@@ -21,10 +21,10 @@ class EarlyStoppingMultiLoss(tf.keras.callbacks.Callback):
     def on_train_begin(self, logs=None):
         self.wait = [0] * len(self.monitor)
         self.stopped_epoch = 0
-        if self.mode == 'min':
+        if self.mode == "min":
             self.best_multi = [np.inf] * len(self.monitor)
             self.inequality = np.less
-        elif self.mode == 'max':
+        elif self.mode == "max":
             self.best_multi = [-1 * np.inf] * len(self.monitor)
             self.inequality = np.greater
 
@@ -46,9 +46,7 @@ class EarlyStoppingMultiLoss(tf.keras.callbacks.Callback):
                     best_weights = []
                     for weight in self.best_weights:
                         best_weights += weight
-                    self.model.set_weights(
-                        best_weights
-                    )
+                    self.model.set_weights(best_weights)
 
     def on_train_end(self, logs=None):
         if self.stopped_epoch > 0:

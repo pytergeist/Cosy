@@ -4,7 +4,7 @@ from .pairwise_losses import (
     pairwise_loss_trace_norm,
     pairwise_loss_l1_norm,
     pairwise_loss_kl_divergence,
-    pairwise_loss_mutual_information,
+    # pairwise_loss_mutual_information,
     pairwise_loss_wasserstein_distance,
 )
 
@@ -37,11 +37,11 @@ def kl_divergence(parameters, lambdas):
     return tf.reduce_sum(losses)
 
 
-def mutual_information(parameters, lambdas):
-    losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_mutual_information(W, lambd))
-    return tf.reduce_sum(losses)
+# def mutual_information(parameters, lambdas): ## fix this
+#     losses = []
+#     for W, lambd in zip(parameters, lambdas):
+#         losses.append(pairwise_loss_mutual_information(W, lambd))
+#     return tf.reduce_sum(losses)
 
 
 def wasserstein_distance(parameters, lambdas):

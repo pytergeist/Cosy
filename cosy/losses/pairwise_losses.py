@@ -3,7 +3,6 @@ import itertools
 
 
 def pairwise_loss_squared_frobenius(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
     squared_norms = []
     for Wi, Wj in itertools.combinations(W, 2):
         squared_norms.append(tf.norm(Wi - Wj, ord="fro", axis=(0, 1)) ** 2)
@@ -12,7 +11,6 @@ def pairwise_loss_squared_frobenius(W, lambd):
 
 
 def pairwise_loss_trace_norm(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
     loss = 0.0
     for Wi, Wj in itertools.combinations(W, 2):
         loss += tf.linalg.trace(
@@ -22,7 +20,6 @@ def pairwise_loss_trace_norm(W, lambd):
 
 
 def pairwise_loss_l1_norm(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
     loss = 0.0
     for Wi, Wj in itertools.combinations(W, 2):
         loss += tf.norm(Wi - Wj, ord=1, axis=(0, 1))
@@ -30,7 +27,6 @@ def pairwise_loss_l1_norm(W, lambd):
 
 
 def pairwise_loss_kl_divergence(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
     loss = 0.0
     for Wi, Wj in itertools.combinations(W, 2):
         loss += tf.reduce_sum(
@@ -40,20 +36,18 @@ def pairwise_loss_kl_divergence(W, lambd):
     return lambd * loss
 
 
-def pairwise_loss_mutual_information(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
-    loss = 0.0
-    for Wi, Wj in itertools.combinations(W, 2):
-        p = tf.nn.softmax(Wi)
-        q = tf.nn.softmax(Wj)
-        loss += tf.reduce_sum(
-            p * (tf.math.log(p) - tf.math.log(tf.reduce_sum(q, axis=0)))
-        ) + tf.reduce_sum(q * (tf.math.log(q) - tf.math.log(tf.reduce_sum(p, axis=0))))
-    return lambd * loss
+# def pairwise_loss_mutual_information(W, lambd):
+#     loss = 0.0
+#     for Wi, Wj in itertools.combinations(W, 2):
+#         p = tf.nn.softmax(Wi)
+#         q = tf.nn.softmax(Wj)
+#         loss += tf.reduce_sum(
+#             p * (tf.math.log(p) - tf.math.log(tf.reduce_sum(q, axis=0)))
+#         ) + tf.reduce_sum(q * (tf.math.log(q) - tf.math.log(tf.reduce_sum(p, axis=0))))
+#     return lambd * loss
 
 
 def pairwise_loss_wasserstein_distance(W, lambd):
-    """Computes the pairwise weight-sharing loss between a list of weight matrices."""
     loss = 0.0
     for Wi, Wj in itertools.combinations(W, 2):
         loss += tf.norm(Wi - Wj, ord=2, axis=(0, 1))
