@@ -152,7 +152,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-cosy/examples/examply.ipynb
+cosy/examples
 .idea
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
