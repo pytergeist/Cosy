@@ -24,7 +24,7 @@ squared frobenius norm is shown below.
 $$L = l + \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} \lambda_{ij} \lVert W_i - W_j \rVert^2$$
 
 In this equation, $n$ is the total number of neural networks, $l$ is the supervised loss, $\lambda_{ij}$ is the 
-weight-sharing hyperparameter between the $i$th and $j$th neural networks, and $W_i$ and $W_j$ are the weight tensors of 
+weight-sharing hyperparameter between the $ith$ and $jth$ neural networks, and $W_i$ and $W_j$ are the weight tensors of 
 the $i$th and $j$th neural networks, respectively. The nested for loop computes the pairwise loss between all possible 
 pairs of weight tensors. 
 
