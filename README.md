@@ -1,9 +1,9 @@
 ## Cosy ##
 
-Cosy is a keras wrapper for soft-parameter sharing multitask learning.
+Cosy provide keras wrappers for soft-parameter sharing multitask learning.
 The goal of this repository is to provide a simple high level wrapper for fast
 prototyping of simple multitask learning problems. The repository ships with two 
-wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary list of
+wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary length list of
 keras model configurations and implement a soft parameter sharing loss between the 
 weights of the specified network layers. 
 

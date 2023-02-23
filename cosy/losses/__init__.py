@@ -3,7 +3,6 @@ from .soft_losses import (
     l1_norm,
     trace_norm,
     kl_divergence,
-    # mutual_information,
     wasserstein_distance,
 )
 from .masked_losses import MaskedMeanSquaredError
@@ -15,7 +14,6 @@ __all__ = [
     "trace_norm",
     "l1_norm",
     "kl_divergence",
-    # "mutual_information",
     "wasserstein_distance",
     "MaskedMeanSquaredError",
     "pairwise_loss_squared_frobenius",
