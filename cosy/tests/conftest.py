@@ -23,7 +23,7 @@ def cosy_net_params(test_mlp):
         "max_layer_cutoff": -1,
         "min_layer_cutoff": 0,
         "loss_fn": squared_frobenius_norm,
-        "scalar": 0.2,
+        "scalar": [0.2, 0.2, 0.2],
     }
 
 
