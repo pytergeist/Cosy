@@ -107,6 +107,26 @@ cosy_model = CosyNet(
 )
 ```
 
+In order to understand the order in which to input the scalar values, you can use itertools.combinations
+to view the index combinations of the networks you are wrapping together. For example, if you are wrapping four neural networks
+together you can use the following code to view the index combinations.
+
+```python
+import itertools
+neural_network_ids = [1,2,3,4]
+
+for scalar_id, (network_id_1, network_id_2) in enumerate(itertools.combinations(neural_network_ids, 2)):
+  print(f"Scalar id {scalar_id} is applied to networks: {network_id_1} {network_id_2}")
+```
+```
+Scalar id 0 is applied to networks: 1 2
+Scalar id 1 is applied to networks: 1 3
+Scalar id 2 is applied to networks: 1 4
+Scalar id 3 is applied to networks: 2 3
+Scalar id 4 is applied to networks: 2 4
+Scalar id 5 is applied to networks: 3 4
+```
+
 Once the cosy_model has been initialized it can be compiled and train in the same fashion
 as a standard keras multitask network.
 
