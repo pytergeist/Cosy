@@ -20,6 +20,7 @@ tensorflow-metal = {version = "==0.5.0", sys_platform = "== 'darwin'"}
 tensorflow-macos = {version = "==2.9.0", sys_platform = "== 'darwin'"}
 pytest-cov = "*"
 circleci = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.9"

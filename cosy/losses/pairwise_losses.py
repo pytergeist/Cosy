@@ -2,53 +2,49 @@ import tensorflow as tf
 import itertools
 
 
-def pairwise_loss_squared_frobenius(W, lambd):
+def pairwise_loss_squared_frobenius(weights, lambdas):
     squared_norms = []
-    for Wi, Wj in itertools.combinations(W, 2):
-        squared_norms.append(tf.norm(Wi - Wj, ord="fro", axis=(0, 1)) ** 2)
-    loss = lambd * tf.reduce_sum(squared_norms)
-    return loss
+    for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
+        squared_norm = tf.norm(Wi - Wj, ord="fro", axis=(0, 1)) ** 2
+        scaled_squared_norm = tf.gather(lambdas, lmbd_idx) * squared_norm
+        squared_norms.append(scaled_squared_norm)
+    return tf.reduce_sum(squared_norms)
 
 
-def pairwise_loss_trace_norm(W, lambd):
-    loss = 0.0
-    for Wi, Wj in itertools.combinations(W, 2):
-        loss += tf.linalg.trace(
+def pairwise_loss_trace_norm(weights, lambdas):
+    trace_norms = []
+    for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
+        trace_norm = tf.linalg.trace(
             tf.matmul(tf.transpose(tf.math.subtract(Wi, Wj)), tf.math.subtract(Wi, Wj))
         )
-    return lambd * loss
+        scaled_trace_norm = tf.gather(lambdas, lmbd_idx) * trace_norm
+        trace_norms.append(scaled_trace_norm)
+    return tf.reduce_sum(trace_norms)
 
 
-def pairwise_loss_l1_norm(W, lambd):
-    loss = 0.0
-    for Wi, Wj in itertools.combinations(W, 2):
-        loss += tf.norm(Wi - Wj, ord=1, axis=(0, 1))
-    return lambd * loss
+def pairwise_loss_l1_norm(weights, lambdas):
+    l1_norms = []
+    for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
+        l1_norm = tf.norm(Wi - Wj, ord=1, axis=(0, 1))
+        scaled_l1_norm = tf.gather(lambdas, lmbd_idx) * l1_norm
+        l1_norms.append(scaled_l1_norm)
+    return tf.reduce_sum(l1_norms)
 
 
-def pairwise_loss_kl_divergence(W, lambd):
-    loss = 0.0
-    for Wi, Wj in itertools.combinations(W, 2):
-        loss += tf.reduce_sum(
-            tf.nn.softmax(Wi)
-            * (tf.math.log(tf.nn.softmax(Wi)) - tf.math.log(tf.nn.softmax(Wj)))
-        )
-    return lambd * loss
+def pairwise_loss_kl_divergence(weights, lambdas):
+    kl_divergnces = []
+    for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
+        kl_divergnce = (tf.nn.softmax(Wi)
+                        * (tf.math.log(tf.nn.softmax(Wi)) - tf.math.log(tf.nn.softmax(Wj))))
+        scaled_kl_divergnce = tf.gather(lambdas, lmbd_idx) * kl_divergnce
+        kl_divergnces.append(scaled_kl_divergnce)
+    return tf.reduce_sum(kl_divergnces)
 
 
-# def pairwise_loss_mutual_information(W, lambd):
-#     loss = 0.0
-#     for Wi, Wj in itertools.combinations(W, 2):
-#         p = tf.nn.softmax(Wi)
-#         q = tf.nn.softmax(Wj)
-#         loss += tf.reduce_sum(
-#             p * (tf.math.log(p) - tf.math.log(tf.reduce_sum(q, axis=0)))
-#         ) + tf.reduce_sum(q * (tf.math.log(q) - tf.math.log(tf.reduce_sum(p, axis=0))))
-#     return lambd * loss
-
-
-def pairwise_loss_wasserstein_distance(W, lambd):
-    loss = 0.0
-    for Wi, Wj in itertools.combinations(W, 2):
-        loss += tf.norm(Wi - Wj, ord=2, axis=(0, 1))
-    return lambd * loss
+def pairwise_loss_wasserstein_distance(weights, lambdas):
+    wasserstein_distances = []
+    for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
+        wasserstein_distance = tf.norm(Wi - Wj, ord=2, axis=(0, 1))
+        scaled_wasserstein_distance = tf.gather(lambdas, lmbd_idx) * wasserstein_distance
+        wasserstein_distances.append(scaled_wasserstein_distance)
+    return tf.reduce_sum(wasserstein_distances)

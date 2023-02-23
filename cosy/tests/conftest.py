@@ -1,5 +1,6 @@
 import tensorflow as tf
 import pytest
+import numpy as np
 from cosy.models import CosyNet, CosyNetMultiInput
 from cosy.losses import squared_frobenius_norm
 
@@ -22,7 +23,7 @@ def cosy_net_params(test_mlp):
         "max_layer_cutoff": -1,
         "min_layer_cutoff": 0,
         "loss_fn": squared_frobenius_norm,
-        "scalar": 0.2,
+        "scalar": [0.2, 0.2, 0.2],
     }
 
 
@@ -72,5 +73,28 @@ def network_params_random_deterministic():
         [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))],
         [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))]
     ]
+
+
+@pytest.fixture
+def weights_2d():
+    return np.array([[[1, 2], [1, 2]], [[3, 4], [3, 4]]])
+
+
+@pytest.fixture
+def weights_2d_identical():
+    return np.array([[[1, 2], [1, 2]], [[1, 2], [1, 2]]])
+
+
+@pytest.fixture
+def weights_3d():
+    return np.array([[[1, 2], [1, 2]], [[3, 4], [3, 4]], [[5, 6], [5, 6]]])
+
+
+@pytest.fixture
+def weights_4d():
+    return np.array(
+                [[[1, 2], [1, 2]], [[3, 4], [3, 4]], [[5, 6], [5, 6]], [[7, 8], [7, 8]]]
+            )
+
 
 

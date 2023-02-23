@@ -1,19 +1,21 @@
-## Cosy ##
+# Cosy #
 
-Cosy is a keras wrapper for soft-parameter sharing multitask learning.
+Cosy provide keras wrappers for soft-parameter sharing multitask learning.
 The goal of this repository is to provide a simple high level wrapper for fast
 prototyping of simple multitask learning problems. The repository ships with two 
-wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary list of
+wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary length list of
 keras model configurations and implement a soft parameter sharing loss between the 
-weights of the specified network layers. 
+weights of the specified network layers.
 
-# Warning: #
-This repository is still under development so use with caution
+## Installation ##
+First install tensorflow, followed by the cosy repository.
 
+```bash
+pip install tensorflow
+pip install git+https://github.com/ThePopeLabs/Cosy.git
+```
 
-# --------------  Usage -------------- #
-
-# Soft parameter sharing loss #
+## Soft parameter sharing loss ##
 In soft parameter sharing one constrains the
 weights of each network to one another whilst allowing for task
 specific deviations. This is often done by appending the supervised loss
@@ -49,7 +51,7 @@ from cosy.losses import (
 )
 ```
 
-# Wrappers #
+## Wrappers ##
 
 The two wrapper can be imported from the models' module of cosy.
 ```python 
@@ -105,6 +107,26 @@ cosy_model = CosyNet(
 )
 ```
 
+In order to understand the order in which to input the scalar values, you can use itertools.combinations
+to view the index combinations of the networks you are wrapping together. For example, if you are wrapping four neural networks
+together you can use the following code to view the index combinations.
+
+```python
+import itertools
+neural_network_ids = [1,2,3,4]
+
+for scalar_id, (network_id_1, network_id_2) in enumerate(itertools.combinations(neural_network_ids, 2)):
+  print(f"Scalar id {scalar_id} is applied to networks: {network_id_1} {network_id_2}")
+```
+```
+Scalar id 0 is applied to networks: 1 2
+Scalar id 1 is applied to networks: 1 3
+Scalar id 2 is applied to networks: 1 4
+Scalar id 3 is applied to networks: 2 3
+Scalar id 4 is applied to networks: 2 4
+Scalar id 5 is applied to networks: 3 4
+```
+
 Once the cosy_model has been initialized it can be compiled and train in the same fashion
 as a standard keras multitask network.
 
@@ -128,7 +150,7 @@ cosy_model.compile(
             )
 ```
 
-# Custom callbacks # 
+## Custom callbacks ## 
 The reposity currently contain one custom callback, EarlyStoppingMultiLoss which monitors
 a list of losses or metrics with stopping criteria and restores the best weights of each of the internal
 models from the point at which the stopping criteria were met.

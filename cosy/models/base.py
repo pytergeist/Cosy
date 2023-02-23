@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, Callable
 import tensorflow as tf
 import numpy as np
+import math
 
 from cosy.losses import squared_frobenius_norm
 
@@ -27,6 +28,12 @@ class BaseCosy(ABC, tf.keras.Model):
             self.scalar = scalar
         else:
             self.scalar = [scalar]
+
+        assert len(scalar) == self.nCr(len(self.model_config), 2), "Please enter a scalar for each pairwise comparison."
+
+    def nCr(self, n, r):
+        f = math.factorial
+        return f(n) // f(r) // f(n - r)
 
     def _build_task_models(self):
         task_nets = [tf.keras.Model.from_config(config) for config in self.model_config]

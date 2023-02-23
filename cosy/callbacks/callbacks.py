@@ -4,11 +4,12 @@ from typing import List
 
 
 class EarlyStoppingMultiLoss(tf.keras.callbacks.Callback):
-    """Stop training when the loss is at its min, i.e. the loss stops decreasing.
+    """Stop training when multiple sopping criteria have been met.
 
     Arguments:
-        patience: Number of epochs to wait after min has been hit. After this
-        number of no improvement, training stops.
+        monitor: List of strings. The metrics to monitor.
+        patience: Number of epochs to wait after stopping criteria has been hit. After this
+        number of no improvement in every criterion, training stops.
     """
 
     def __init__(self, monitor: List[str], patience: int = 0, mode: str = "min"):
