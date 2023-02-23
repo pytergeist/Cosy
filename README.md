@@ -205,10 +205,10 @@ cosy_model_multi_input.fit(
 ## Masking missing data ##
 
 An important aspect of soft parameter sharing multitask learning is the ability to co-train models with a different number of 
-labelled data-point. In order to implement this workflow this repository includes masked supervised loss function (currently
+labelled data-points. In order to implement this workflow this repository includes masked supervised loss function (currently
 only one but more coming soon). In order to train in this paradigm, specify the labels of the missing data points as -1 and use 
 a masked loss function, this will remove these datapoints from the supervised loss whilst still implementing soft parameter loss
-from the forward pass of the networks for these datapoints.
+for the forward pass of the networks for these datapoints.
 
 ```python
 from cosy.losses import MaskedMeanSquaredError
