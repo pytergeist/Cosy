@@ -1,19 +1,21 @@
-## Cosy ##
+# Cosy #
 
 Cosy provide keras wrappers for soft-parameter sharing multitask learning.
 The goal of this repository is to provide a simple high level wrapper for fast
 prototyping of simple multitask learning problems. The repository ships with two 
 wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary length list of
 keras model configurations and implement a soft parameter sharing loss between the 
-weights of the specified network layers. 
+weights of the specified network layers.
 
-# Warning: #
-This repository is still under development so use with caution
+## Installation ##
+First install tensorflow, followed by the cosy repository.
 
+```bash
+pip install tensorflow
+pip install git+https://github.com/ThePopeLabs/Cosy.git
+```
 
-# --------------  Usage -------------- #
-
-# Soft parameter sharing loss #
+## Soft parameter sharing loss ##
 In soft parameter sharing one constrains the
 weights of each network to one another whilst allowing for task
 specific deviations. This is often done by appending the supervised loss
@@ -49,7 +51,7 @@ from cosy.losses import (
 )
 ```
 
-# Wrappers #
+## Wrappers ##
 
 The two wrapper can be imported from the models' module of cosy.
 ```python 
@@ -128,7 +130,7 @@ cosy_model.compile(
             )
 ```
 
-# Custom callbacks # 
+## Custom callbacks ## 
 The reposity currently contain one custom callback, EarlyStoppingMultiLoss which monitors
 a list of losses or metrics with stopping criteria and restores the best weights of each of the internal
 models from the point at which the stopping criteria were met.
