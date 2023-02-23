@@ -10,34 +10,34 @@ from .pairwise_losses import (
 
 def squared_frobenius_norm(parameters, lambdas):
     losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_squared_frobenius(W, lambd))
+    for W in parameters:
+        losses.append(pairwise_loss_squared_frobenius(W, lambdas))
     return tf.reduce_sum(losses)
 
 
 def trace_norm(parameters, lambdas):
     losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_trace_norm(W, lambd))
+    for W in parameters:
+        losses.append(pairwise_loss_trace_norm(W, lambdas))
     return tf.reduce_sum(losses)
 
 
 def l1_norm(parameters, lambdas):
     losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_l1_norm(W, lambd))
+    for W in parameters:
+        losses.append(pairwise_loss_l1_norm(W, lambdas))
     return tf.reduce_sum(losses)
 
 
 def kl_divergence(parameters, lambdas):
     losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_kl_divergence(W, lambd))
+    for W in parameters:
+        losses.append(pairwise_loss_kl_divergence(W, lambdas))
     return tf.reduce_sum(losses)
 
 
 def wasserstein_distance(parameters, lambdas):
     losses = []
-    for W, lambd in zip(parameters, lambdas):
-        losses.append(pairwise_loss_wasserstein_distance(W, lambd))
+    for W in parameters:
+        losses.append(pairwise_loss_wasserstein_distance(W, lambdas))
     return tf.reduce_sum(losses)

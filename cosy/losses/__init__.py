@@ -7,7 +7,13 @@ from .soft_losses import (
 )
 from .masked_losses import MaskedMeanSquaredError
 
-from .soft_losses import pairwise_loss_trace_norm, pairwise_loss_squared_frobenius
+from .soft_losses import (
+    pairwise_loss_trace_norm,
+    pairwise_loss_squared_frobenius,
+    pairwise_loss_wasserstein_distance,
+    pairwise_loss_kl_divergence,
+    pairwise_loss_l1_norm
+)
 
 __all__ = [
     "squared_frobenius_norm",

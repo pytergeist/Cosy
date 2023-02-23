@@ -8,7 +8,6 @@ from cosy.losses import (
     kl_divergence,
     # mutual_information,
     wasserstein_distance,
-
 )
 
 
@@ -21,9 +20,7 @@ from cosy.losses import (
         ("network_params_random_deterministic", [0.5, 0.5, 0.5], 2.131),
     ],
 )
-def test_squared_frobenius_norm(
-        parameters, lambdas, expected_loss, request
-):
+def test_squared_frobenius_norm(parameters, lambdas, expected_loss, request):
     params = request.getfixturevalue(parameters)
     loss = squared_frobenius_norm(params, lambdas)
     assert tf.is_tensor(loss)
@@ -97,6 +94,7 @@ def test_kl_divergence(parameters, lambdas, expected_loss, request):
 #     assert tf.is_tensor(loss)
 #     assert loss.shape == []
 #     assert np.isclose(loss, expected_loss)
+
 
 @pytest.mark.parametrize(
     "parameters, lambdas, expected_loss",
