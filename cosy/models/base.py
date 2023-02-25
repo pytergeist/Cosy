@@ -29,7 +29,9 @@ class BaseCosy(ABC, tf.keras.Model):
         else:
             self.scalar = [scalar]
 
-        assert len(scalar) == self.nCr(len(self.model_config), 2), "Please enter a scalar for each pairwise comparison."
+        assert len(scalar) == self.nCr(
+            len(self.model_config), 2
+        ), "Please enter a scalar for each pairwise comparison."
 
     def nCr(self, n, r):
         f = math.factorial

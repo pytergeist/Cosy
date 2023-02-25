@@ -6,7 +6,6 @@ from cosy.losses import (
     trace_norm,
     l1_norm,
     kl_divergence,
-    # mutual_information,
     wasserstein_distance,
 )
 
@@ -77,23 +76,6 @@ def test_kl_divergence(parameters, lambdas, expected_loss, request):
     assert tf.is_tensor(loss)
     assert loss.shape == []
     assert np.isclose(loss, expected_loss)
-
-
-# @pytest.mark.parametrize(
-#     "parameters, lambdas, expected_loss",
-#     [
-#         ("network_params_ones", [0.5, 0.5, 0.5], 0.0),
-#         ("network_params_zeros", [0.5, 0.5, 0.5], 0.0),
-#         ("network_params_alternate", [0.5, 0.5, 0.5], 0.0),
-#         ("network_params_random_deterministic", [0.5, 0.5, 0.5], 0.28827),
-#     ],
-# )
-# def test_mutual_information(parameters, lambdas, expected_loss, request):
-#     params = request.getfixturevalue(parameters)
-#     loss = mutual_information(params, lambdas)
-#     assert tf.is_tensor(loss)
-#     assert loss.shape == []
-#     assert np.isclose(loss, expected_loss)
 
 
 @pytest.mark.parametrize(

@@ -69,9 +69,21 @@ def network_params_random_deterministic():
     tf.random.set_seed(42)
 
     return [
-        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))],
-        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))],
-        [tf.random.uniform((2, 2)), tf.random.uniform((2, 2)), tf.random.uniform((2, 2))]
+        [
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+        ],
+        [
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+        ],
+        [
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+            tf.random.uniform((2, 2)),
+        ],
     ]
 
 
@@ -93,8 +105,5 @@ def weights_3d():
 @pytest.fixture
 def weights_4d():
     return np.array(
-                [[[1, 2], [1, 2]], [[3, 4], [3, 4]], [[5, 6], [5, 6]], [[7, 8], [7, 8]]]
-            )
-
-
-
+        [[[1, 2], [1, 2]], [[3, 4], [3, 4]], [[5, 6], [5, 6]], [[7, 8], [7, 8]]]
+    )

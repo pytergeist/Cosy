@@ -12,7 +12,7 @@ from .soft_losses import (
     pairwise_loss_squared_frobenius,
     pairwise_loss_wasserstein_distance,
     pairwise_loss_kl_divergence,
-    pairwise_loss_l1_norm
+    pairwise_loss_l1_norm,
 )
 
 __all__ = [
