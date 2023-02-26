@@ -6,7 +6,7 @@ from cosy.losses import (
     trace_norm,
     l1_norm,
     kl_divergence,
-    wasserstein_distance,
+    l2_norm,
 )
 
 
@@ -87,9 +87,9 @@ def test_kl_divergence(parameters, lambdas, expected_loss, request):
         ("network_params_random_deterministic", [0.5, 0.5, 0.5], 2.762555),
     ],
 )
-def test_wasserstein_distance(parameters, lambdas, expected_loss, request):
+def test_l2_norm(parameters, lambdas, expected_loss, request):
     params = request.getfixturevalue(parameters)
-    loss = wasserstein_distance(params, lambdas)
+    loss = l2_norm(params, lambdas)
     assert tf.is_tensor(loss)
     assert loss.shape == []
     assert np.isclose(loss, expected_loss)

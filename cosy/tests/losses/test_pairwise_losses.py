@@ -6,7 +6,7 @@ from cosy.losses import (
     pairwise_loss_trace_norm,
     pairwise_loss_l1_norm,
     pairwise_loss_kl_divergence,
-    pairwise_loss_wasserstein_distance,
+    pairwise_loss_l2_norm,
 )
 
 
@@ -164,11 +164,11 @@ def test_pairwise_loss_kl_divergence(weights, lambdas, expected_loss):
         ),
     ],
 )
-def test_pairwise_loss_wasserstein_distance(weights, lambdas, expected_loss, request):
+def test_pairwise_loss_l2_norm(weights, lambdas, expected_loss, request):
     weights = request.getfixturevalue(weights)
     W_tf = [tf.constant(Wi, dtype=tf.float32) for Wi in weights]
     expected_loss_tf = tf.constant(expected_loss, dtype=tf.float32)
-    actual_loss_tf = pairwise_loss_wasserstein_distance(W_tf, lambdas)
+    actual_loss_tf = pairwise_loss_l2_norm(W_tf, lambdas)
     assert np.isclose(actual_loss_tf, expected_loss_tf, rtol=1e-5)
 
 

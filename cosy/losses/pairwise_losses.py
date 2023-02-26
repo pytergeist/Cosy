@@ -42,7 +42,7 @@ def pairwise_loss_kl_divergence(weights, lambdas):
     return tf.reduce_sum(kl_divergnces)
 
 
-def pairwise_loss_wasserstein_distance(weights, lambdas):
+def pairwise_loss_l2_norm(weights, lambdas):
     wasserstein_distances = []
     for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
         wasserstein_distance = tf.norm(Wi - Wj, ord=2, axis=(0, 1))

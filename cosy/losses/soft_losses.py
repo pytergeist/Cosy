@@ -4,7 +4,7 @@ from .pairwise_losses import (
     pairwise_loss_trace_norm,
     pairwise_loss_l1_norm,
     pairwise_loss_kl_divergence,
-    pairwise_loss_wasserstein_distance,
+    pairwise_loss_l2_norm,
 )
 
 
@@ -36,8 +36,8 @@ def kl_divergence(parameters, lambdas):
     return tf.reduce_sum(losses)
 
 
-def wasserstein_distance(parameters, lambdas):
+def l2_norm(parameters, lambdas):
     losses = []
     for W in parameters:
-        losses.append(pairwise_loss_wasserstein_distance(W, lambdas))
+        losses.append(pairwise_loss_l2_norm(W, lambdas))
     return tf.reduce_sum(losses)

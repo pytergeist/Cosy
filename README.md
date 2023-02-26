@@ -47,7 +47,7 @@ from cosy.losses import (
     l1_norm,
     trace_norm,
     kl_divergence,
-    wasserstein_distance,
+    l2_norm,
 )
 ```
 
