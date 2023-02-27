@@ -15,7 +15,7 @@ def pairwise_loss_trace_norm(weights, lambdas):
     trace_norms = []
     for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
         trace_norm = tf.linalg.trace(
-            tf.matmul(tf.transpose(tf.math.subtract(Wi, Wj)), tf.math.subtract(Wi, Wj))
+            tf.matmul(tf.transpose(Wi - Wj), Wi - Wj)
         )
         scaled_trace_norm = tf.gather(lambdas, lmbd_idx) * trace_norm
         trace_norms.append(scaled_trace_norm)
