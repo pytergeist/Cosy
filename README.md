@@ -5,7 +5,8 @@ The goal of this repository is to provide a simple high level wrapper for fast
 prototyping of simple multitask learning problems. The repository ships with two 
 wrappers, CosyNet and CosyNetMultiInput; both of these take an arbitrary length list of
 keras model configurations and implement a soft parameter sharing loss between the 
-weights of the specified network layers.
+weights of the specified network layers. The current implementation only works for soft parameter sharing
+between dense laysers but will be extended to other layer types in the near future.
 
 ## Installation ##
 First install tensorflow, followed by the cosy repository.
