@@ -46,8 +46,8 @@ def pairwise_loss_l2_norm(weights, lambdas):
     l2_norms = []
     for lmbd_idx, (Wi, Wj) in enumerate(itertools.combinations(weights, 2)):
         l2_norm = tf.norm(Wi - Wj, ord=2, axis=(0, 1))
-        scaled_wasserstein_distance = (
+        scaled_l2_norm = (
             tf.gather(lambdas, lmbd_idx) * l2_norm
         )
-        l2_norms.append(scaled_wasserstein_distance)
+        l2_norms.append(scaled_l2_norm)
     return tf.reduce_sum(l2_norms)
